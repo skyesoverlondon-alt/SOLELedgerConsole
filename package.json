@@ -1,0 +1,8 @@
+{
+  "name": "sole-ledger-console",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SOLE Ledger Console (Netlify + OpenAI Responses API)",
+  "type": "module",
+  "dependencies": {}
+}
