@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOLE Ledger Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #7c3aed;
+      --accent-2: #22d3ee;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #1f2937;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.12), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(34, 211, 238, 0.16), transparent 28%),
+                  linear-gradient(135deg, #0b1220 0%, #0f172a 100%);
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .shell {
+      width: min(1080px, 100%);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    header {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(34, 211, 238, 0.08));
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    main {
+      padding: 24px 28px 32px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 18px 14px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 6px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #dbeafe;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0b1220;
+      color: var(--text);
+      font: inherit;
+      padding: 10px 12px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    }
+
+    textarea { min-height: 140px; resize: vertical; }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.25);
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.25);
+    }
+
+    button:active { transform: translateY(1px); }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.two { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+    .output {
+      white-space: pre-wrap;
+      background: #0b1220;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 80px;
+      font-size: 14px;
+      color: #d1d5db;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.15);
+      color: #e9d5ff;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .muted-note { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="badge">Netlify + OpenAI</div>
+      <h1>SOLE Ledger Console</h1>
+      <p class="subtitle">Static frontend served from /public with a Netlify Function at /api/ai.</p>
+    </header>
+    <main>
+      <section class="card">
+        <h2>Test the AI Function</h2>
+        <p>Fill in a prompt and send it to the Netlify Function proxying OpenAI Responses API.</p>
+        <form id="ai-form" class="grid" autocomplete="off">
+          <div class="grid two">
+            <div>
+              <label for="model">Model</label>
+              <input id="model" name="model" placeholder="gpt-4.1-mini" />
+            </div>
+            <div>
+              <label for="system">System message (optional)</label>
+              <input id="system" name="system" placeholder="You are a concise assistant..." />
+            </div>
+          </div>
+          <div>
+            <label for="prompt">Prompt</label>
+            <textarea id="prompt" name="prompt" placeholder="Ask the ledger console something specific."></textarea>
+          </div>
+          <button type="submit">Send to /api/ai</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Response</h2>
+        <div id="status" class="muted-note">Waiting for your request…</div>
+        <div id="output" class="output"></div>
+      </section>
+
+      <section class="card">
+        <h2>Deployment Notes</h2>
+        <p class="muted-note">Deploy from Git. Set OPENAI_API_KEY (and optionally OPENAI_MODEL) in Netlify Environment Variables.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById("ai-form");
+    const output = document.getElementById("output");
+    const statusEl = document.getElementById("status");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const prompt = form.prompt.value.trim();
+      const system = form.system.value.trim();
+      const model = form.model.value.trim();
+
+      if (!prompt) {
+        statusEl.textContent = "Add a prompt first.";
+        return;
+      }
+
+      statusEl.textContent = "Calling /api/ai…";
+      output.textContent = "";
+
+      try {
+        const response = await fetch("/api/ai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, system: system || undefined, model: model || undefined })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          statusEl.textContent = `Error ${response.status}`;
+          output.textContent = data.error || JSON.stringify(data, null, 2);
+          return;
+        }
+
+        statusEl.textContent = `Model: ${data.model}`;
+        output.textContent = data.output || "No text returned.";
+      } catch (error) {
+        statusEl.textContent = "Request failed";
+        output.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

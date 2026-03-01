@@ -11,6 +11,20 @@ Why: the OpenAI integration is a Netlify Function (/api/ai). Netlify Drop does n
    - OPENAI_API_KEY = your OpenAI API key
    - (optional) OPENAI_MODEL = gpt-4.1-mini
 
+### Local dev
+- Install deps: `npm install`
+- Start Netlify dev (proxies functions): `npx netlify dev`
+- The static site lives in `public/`; the function is in `netlify/functions/ai.js` and is reachable at `/api/ai`.
+
+### Test the function
+- With curl:
+   ```bash
+   curl -X POST http://localhost:8888/api/ai \
+      -H "Content-Type: application/json" \
+      -d '{"prompt": "Give me a one-line status."}'
+   ```
+- Or open `http://localhost:8888` and use the form in the page.
+
 ## Use
 1) Ledger → paste your big ledger CSV → Import/Merge
 2) Proof Pack → paste your canon context/proof pack → Save

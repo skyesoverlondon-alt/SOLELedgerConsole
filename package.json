@@ -4,5 +4,7 @@
   "private": true,
   "description": "SOLE Ledger Console (Netlify + OpenAI Responses API)",
   "type": "module",
-  "dependencies": {}
+  "dependencies": {
+    "openai": "^6.25.0"
+  }
 }
